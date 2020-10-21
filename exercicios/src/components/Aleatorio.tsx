@@ -13,11 +13,7 @@ const Aleatorio: React.FC<AleatorioProps> = ({ min, max }) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  return (
-    <Text style={estilo.txtG}>
-      O valor aleatório é {randomInteger(min, max)}
-    </Text>
-  );
+  return <Text style={estilo.txtG}>O valor aleatório é {randomInteger(min, max)}</Text>;
 };
 
 export default Aleatorio;

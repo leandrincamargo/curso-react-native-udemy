@@ -13,10 +13,7 @@ export default function Botao() {
           console.warn('Exec #02!!!');
         }}
       />
-      <Button
-        title="Executar #03!"
-        onPress={() => console.warn('Exec #03!!!')}
-      />
+      <Button title="Executar #03!" onPress={() => console.warn('Exec #03!!!')} />
     </>
   );
 }
