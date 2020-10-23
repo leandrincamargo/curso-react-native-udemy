@@ -1,7 +1,13 @@
 import React from 'react';
-import { Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
-import DigiteSeuNome from './components/DigiteSeuNome';
+import Mega from './components/mega/Mega';
+// import FlexboxV4 from './components/layout/FlexboxV4';
+// import FlexboxV3 from './components/layout/FlexboxV3';
+// import FlexboxV2 from './components/layout/FlexboxV2';
+// import FlexboxV1 from './components/layout/FlexboxV1';
+// import Quadrado from './components/layout/Quadrado';
+// import DigiteSeuNome from './components/DigiteSeuNome';
 // import ListaProdutoV2 from './components/produtos/ListaProdutosV2';
 // import ListaProdutos from './components/produtos/ListaProdutos';
 // import UsuarioLogado from './components/UsuarioLogado';
@@ -21,9 +27,14 @@ import DigiteSeuNome from './components/DigiteSeuNome';
 // import Primeiro from './components/Primeiro';
 
 export default () => (
-  <SafeAreaView style={styles.container}>
-    <DigiteSeuNome />
+  <SafeAreaView style={style.App}>
+    <Mega qtdeNumeros={12} />
     {/*
+    <FlexboxV4 />
+    <FlexboxV3 />
+    <FlexboxV2 />
+    <FlexboxV1 />
+    <DigiteSeuNome />
     <ListaProdutoV2 />
     <ListaProdutos />
     <UsuarioLogado usuario={{ nome: 'Gui', email: 'gui@gui.com' }} />
@@ -68,12 +79,11 @@ export default () => (
   </SafeAreaView>
 );
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    flex: 1,
-    alignItems: 'center',
+const style = StyleSheet.create({
+  App: {
+    flexGrow: 1,
     justifyContent: 'center',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    alignItems: 'center',
+    padding: 20,
   },
 });
