@@ -1,0 +1,12 @@
+{
+  "name": "navegacao",
+  "displayName": "navegacao",
+  "expo": {
+    "name": "navegacao",
+    "slug": "navegacao",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
