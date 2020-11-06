@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import { login } from '../store/actions/user';
 
 const Login: React.FC = (props: any) => {
-  const { navigate } = useNavigation();
   const [name, setName] = useState('Temporário');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const prev = useRef({ isLoading: props.isLoading }).current;
+
+  useEffect(() => {
+    if (prev.isLoading && !props.isLoading) {
+      props.navigation.navigate('Feed');
+    }
+    return () => (prev.isLoading = props.isLoading);
+  }, [props.isLoading]);
 
   const login = () => {
     props.onLogin({ name, email, password });
-    navigate('Profile');
   };
 
   return (
@@ -38,7 +43,7 @@ const Login: React.FC = (props: any) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigate('Register');
+          props.navigation.navigate('Register');
         }}
         style={styles.button}
       >
@@ -76,6 +81,12 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = ({ user }) => {
+  return {
+    isLoading: user.isLoading,
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     onLogin: (user: any) => dispatch(login(user)),
@@ -83,4 +94,4 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 // export default Login;
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -20,7 +20,7 @@ const Post: React.FC<PostProps> = ({ id, name, email, nickname, image, comments 
 
   return (
     <View style={styles.container}>
-      <Image source={image} style={styles.image} />
+      <Image source={{ uri: image }} style={styles.image} />
       <Author email={email} nickname={nickname} />
       <Comments comments={comments} />
       {addComent}

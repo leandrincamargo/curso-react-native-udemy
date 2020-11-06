@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
+import { createUser } from '../store/actions/user';
 
-const Register: React.FC = () => {
+const Register: React.FC = (props: any) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const prev = useRef({ isLoading: props.isLoading }).current;
+
+  useEffect(() => {
+    if (prev.isLoading && !props.isLoading) {
+      setName('');
+      setEmail('');
+      setPassword('');
+      props.navigation.navigate('Feed');
+    }
+    return () => (prev.isLoading = props.isLoading);
+  }, [props.isLoading]);
 
   return (
     <View style={styles.container}>
@@ -30,7 +43,12 @@ const Register: React.FC = () => {
         value={password}
         onChangeText={setPassword}
       />
-      <TouchableOpacity onPress={() => {}} style={styles.button}>
+      <TouchableOpacity
+        onPress={() => {
+          props.onCreateUser({ name, email, password });
+        }}
+        style={styles.button}
+      >
         <Text style={styles.buttonText}>Salvar</Text>
       </TouchableOpacity>
     </View>
@@ -66,4 +84,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+const mapStateToProps = ({ user }) => {
+  return {
+    isLoading: user.isLoading,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onCreateUser: (user: any) => dispatch(createUser(user)),
+  };
+};
+
+// export default Register;
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

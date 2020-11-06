@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   Alert,
@@ -19,8 +19,18 @@ import { addPost } from '../store/actions/posts';
 const AddPhoto: React.FC = (props: any) => {
   const [image, setImage] = useState<any>(null);
   const [comment, setComment] = useState('');
+  const prev = useRef({ loading: props.loading }).current;
 
   const noUser = 'Você precisa estar logado para adicionar imagens';
+
+  useEffect(() => {
+    if (prev.loading && !props.loading) {
+      setImage(null);
+      setComment('');
+      props.navigation.navigate('Feed');
+    }
+    return () => (prev.loading = props.loading);
+  }, [props.loading]);
 
   const pickImage = () => {
     if (!props.name) {
@@ -60,10 +70,6 @@ const AddPhoto: React.FC = (props: any) => {
         },
       ],
     });
-
-    setImage(null);
-    setComment('');
-    props.navigation.navigate('Feed');
   };
 
   return (
@@ -83,7 +89,11 @@ const AddPhoto: React.FC = (props: any) => {
           editable={props.name != null}
           onChangeText={setComment}
         />
-        <TouchableOpacity onPress={save} style={styles.button}>
+        <TouchableOpacity
+          onPress={save}
+          style={[styles.button, props.loading ? styles.buttonDisabled : null]}
+          disabled={props.loading}
+        >
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
       </View>
@@ -131,12 +141,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '90%',
   },
+
+  buttonDisabled: {
+    backgroundColor: '#AAA',
+  },
 });
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, posts }) => {
   return {
     email: user.email,
     name: user.name,
+    loading: posts.isUploading,
   };
 };
 

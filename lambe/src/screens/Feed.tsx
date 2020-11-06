@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import Header from '../components/Header';
 import Post from '../components/Post';
+import { fetchPosts } from '../store/actions/posts';
 
 const Feed: React.FC = (props: any) => {
+  useEffect(() => {
+    props.onFetchPosts();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header />
@@ -33,5 +38,11 @@ const mapStateToProps = ({ posts }) => {
   };
 };
 
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onFetchPosts: () => dispatch(fetchPosts()),
+  };
+};
+
 // export default Feed;
-export default connect(mapStateToProps)(Feed);
+export default connect(mapStateToProps, mapDispatchToProps)(Feed);

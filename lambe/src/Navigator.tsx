@@ -10,6 +10,7 @@ import AddPhoto from './screens/AddPhoto';
 import Profile from './screens/Profile';
 import Login from './screens/Login';
 import Register from './screens/Register';
+import Splash from './screens/Splash';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -74,7 +75,10 @@ const AuthNavigator = () => {
 const Navigator = () => {
   return (
     <NavigationContainer>
-      <TabNavigator />
+      <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="App" component={TabNavigator} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
